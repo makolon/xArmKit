@@ -1,6 +1,6 @@
 [submodule "src/data_collection"]
-	path = src/data_collection
+	path = third_party/gello_software
 	url = https://github.com/makolon/gello_software.git
 [submodule "src/policy_training/lerobot"]
-	path = src/policy_training/lerobot
+	path = third_party/lerobot
 	url = https://github.com/huggingface/lerobot.git
