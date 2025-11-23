@@ -85,10 +85,10 @@ from pathlib import Path
 try:
     from lerobot.datasets.lerobot_dataset import LeRobotDataset
     ds = LeRobotDataset('$OUTPUT_DIR')
-    print(f'✓ Dataset loaded successfully')
-    print(f'  Episodes: {ds.num_episodes}')
-    print(f'  Frames: {ds.num_frames}')
-    print(f'  FPS: {ds.fps}')
+    print(f'Dataset loaded successfully')
+    print(f'Episodes: {ds.num_episodes}')
+    print(f'Frames: {ds.num_frames}')
+    print(f'FPS: {ds.fps}')
 except Exception as e:
     print(f'Note: Could not verify dataset - {e}')
 " 2>/dev/null || echo -e "${YELLOW}(Dataset verification skipped - lerobot not available)${NC}"
