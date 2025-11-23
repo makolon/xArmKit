@@ -38,6 +38,12 @@ trap cleanup SIGINT SIGTERM
 GELLO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../third_party/gello_software" && pwd)"
 cd "$GELLO_DIR"
 
+# Kill any existing processes from previous runs
+echo -e "${YELLOW}Cleaning up any existing processes...${NC}"
+pkill -f "launch_camera_nodes.py" 2>/dev/null || true
+pkill -f "launch_nodes.py" 2>/dev/null || true
+sleep 1  # Wait for processes to fully terminate
+
 echo -e "${GREEN}Starting data collection pipeline...${NC}"
 echo -e "Working directory: ${GELLO_DIR}"
 
