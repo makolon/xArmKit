@@ -34,9 +34,9 @@ cleanup() {
 # Cleanup on Ctrl+C
 trap cleanup SIGINT SIGTERM
 
-# Set path to gello_software
-GELLO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../third_party/gello_software" && pwd)"
-cd "$GELLO_DIR"
+# Set paths
+XARMKIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+GELLO_DIR="${XARMKIT_DIR}/third_party/gello_software"
 
 # Kill any existing processes from previous runs
 echo -e "${YELLOW}Cleaning up any existing processes...${NC}"
@@ -45,6 +45,31 @@ pkill -f "launch_nodes.py" 2>/dev/null || true
 sleep 1  # Wait for processes to fully terminate
 
 echo -e "${GREEN}Starting data collection pipeline...${NC}"
+
+# 0. Reset xArm7 to home position
+echo -e "${GREEN}[0/3] Resetting xArm7 to home position...${NC}"
+cd "$XARMKIT_DIR"
+python -c "
+import sys
+sys.path.insert(0, 'src')
+from real.xarm7 import XArm7
+
+robot_ip = '192.168.10.211'
+print(f'Connecting to xArm7 at {robot_ip}...')
+with XArm7(robot_ip, is_radian=False, enable_logging=True) as robot:
+    if robot.initialize(go_home=True):
+        print('xArm7 successfully moved to home position!')
+    else:
+        print('Failed to initialize xArm7!')
+        sys.exit(1)
+"
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Failed to reset xArm7 to home position${NC}"
+    exit 1
+fi
+echo -e "${GREEN}xArm7 reset complete${NC}\n"
+
+cd "$GELLO_DIR"
 echo -e "Working directory: ${GELLO_DIR}"
 
 # Set data directory

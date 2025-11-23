@@ -12,10 +12,10 @@ from examples.pybullet.utils.pybullet_tools.xarm_primitives import (
     BodyPose,
     BodyConf,
     Command,
-    get_grasp_gen, \
+    get_grasp_gen,
     get_stable_gen,
     get_ik_fn,
-    get_free_motion_gen, \
+    get_free_motion_gen,
     get_holding_motion_gen,
     get_movable_collision_test,
     get_tool_link,
@@ -26,10 +26,10 @@ from examples.pybullet.utils.pybullet_tools.utils import (
     dump_body,
     get_pose,
     set_pose,
-    Pose, \
+    Pose,
     Point,
     set_default_camera,
-    stable_z, \
+    stable_z,
     BLOCK_URDF,
     SMALL_BLOCK_URDF,
     get_configuration,
@@ -64,6 +64,7 @@ def get_fixed(robot, movable):
     rigid = [body for body in get_bodies() if body != robot]
     fixed = [body for body in rigid if body not in movable]
     return fixed
+
 
 def place_movable(certified):
     placed = []
@@ -178,6 +179,7 @@ def load_world():
     set_pose(radish, Pose(Point(y=-0.5, z=stable_z(radish, floor))))
 
     return robot, body_names, movable_bodies
+
 
 def postprocess_plan(plan):
     paths = []

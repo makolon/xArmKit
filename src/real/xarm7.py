@@ -24,7 +24,7 @@ class XArm7:
     """
     
     # Default home position (joint angles in degrees)
-    DEFAULT_HOME_POSITION = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    DEFAULT_HOME_POSITION = [0.0, -40, 0.0, 20, 0.0, 60, 0.0]
     
     # Default initial Cartesian position [x, y, z, roll, pitch, yaw]
     # This is approximately the home position in Cartesian coordinates
