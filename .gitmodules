@@ -1,7 +1,7 @@
-[submodule "src/data_collection"]
+[submodule "third_party/gello_software"]
 	path = third_party/gello_software
 	url = https://github.com/makolon/gello_software.git
-[submodule "src/policy_training/lerobot"]
+[submodule "third_party/lerobot"]
 	path = third_party/lerobot
 	url = https://github.com/huggingface/lerobot.git
 [submodule "third_party/openpi"]
@@ -9,7 +9,7 @@
 	url = https://github.com/Physical-Intelligence/openpi.git
 [submodule "third_party/real2sim-eval"]
 	path = third_party/real2sim-eval
-	url = https://github.com/kywind/real2sim-eval.git
+	url = https://github.com/makolon/real2sim-eval.git
 [submodule "third_party/dinov3"]
 	path = third_party/dinov3
 	url = https://github.com/facebookresearch/dinov3.git
