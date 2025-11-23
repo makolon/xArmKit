@@ -25,3 +25,6 @@
 [submodule "third_party/FoundationPose"]
 	path = third_party/FoundationPose
 	url = https://github.com/makolon/FoundationPose.git
+[submodule "third_party/ViLaIn"]
+	path = third_party/ViLaIn
+	url = https://github.com/makolon/ViLaIn.git
