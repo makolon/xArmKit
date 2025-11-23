@@ -26,7 +26,7 @@
 	path = third_party/foundationpose
 	url = https://github.com/makolon/FoundationPose.git
 [submodule "third_party/vilain"]
-	path = third_party/viLain
+	path = third_party/vilain
 	url = https://github.com/makolon/ViLaIn.git
 [submodule "third_party/ricl_openpi"]
 	path = third_party/ricl_openpi
