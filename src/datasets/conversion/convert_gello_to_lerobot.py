@@ -275,11 +275,7 @@ def convert_gello_to_lerobot(
     
     # Process each episode
     for ep_idx, episode_dir in enumerate(tqdm(episode_dirs, desc="Converting episodes")):
-        try:
-            frames = load_episode_data(episode_dir)
-        except Exception as e:
-            print(f"\n Episode {ep_idx} ({episode_dir.name}): Failed to load - {e}")
-            continue
+        frames = load_episode_data(episode_dir)
         
         if len(frames) == 0:
             print(f"\n Episode {ep_idx} ({episode_dir.name}): No frames, skipping")
@@ -288,60 +284,55 @@ def convert_gello_to_lerobot(
         # Convert each frame
         frame_count = 0
         for frame_idx, frame_data in enumerate(frames):
-            try:
-                # Extract data from frame
-                joint_positions = np.asarray(
-                    frame_data["joint_positions"], dtype=np.float32
-                )
-                joint_velocities = np.asarray(
-                    frame_data["joint_velocities"], dtype=np.float32
-                )
-                ee_pos_quat = np.asarray(
-                    frame_data["ee_pos_quat"], dtype=np.float32
-                )
-                control = np.asarray(
-                    frame_data["control"], dtype=np.float32
-                )
-                wrist_rgb = frame_data["wrist_rgb"]
-                
-                # Ensure correct array sizes
-                if len(joint_positions) != state_dim:
-                    print(f"\n Frame {frame_idx}: Invalid joint_positions size {len(joint_positions)}, expected {state_dim}")
-                    continue
-                
-                if len(control) != action_dim:
-                    print(f"\n Frame {frame_idx}: Invalid control size {len(control)}, expected {action_dim}")
-                    continue
-                
-                # Build frame dictionary
-                frame_dict = {
-                    "observation.state": joint_positions,
-                    "observation.velocity": joint_velocities,
-                    "observation.ee_pose": ee_pos_quat,
-                    "action": control,
-                    "task": goal_description,
-                }
-                
-                # Add wrist camera image
-                if wrist_rgb is not None and wrist_rgb.size > 0:
-                    # Ensure uint8 format
-                    if wrist_rgb.dtype != np.uint8:
-                        wrist_rgb = (wrist_rgb * 255).clip(0, 255).astype(np.uint8)
-                    
-                    # Convert to PIL Image
-                    frame_dict["observation.images.wrist"] = Image.fromarray(wrist_rgb)
-                else:
-                    # Black frame placeholder
-                    black_frame = np.zeros((480, 640, 3), dtype=np.uint8)
-                    frame_dict["observation.images.wrist"] = Image.fromarray(black_frame)
-                
-                # Add frame to dataset
-                dataset.add_frame(frame_dict)
-                frame_count += 1
-                
-            except Exception as e:
-                print(f"\n Episode {ep_idx}, Frame {frame_idx}: Error - {e}")
+            # Extract data from frame
+            joint_positions = np.asarray(
+                frame_data["joint_positions"], dtype=np.float32
+            )
+            joint_velocities = np.asarray(
+                frame_data["joint_velocities"], dtype=np.float32
+            )
+            ee_pos_quat = np.asarray(
+                frame_data["ee_pos_quat"], dtype=np.float32
+            )
+            control = np.asarray(
+                frame_data["control"], dtype=np.float32
+            )
+            wrist_rgb = frame_data["wrist_rgb"]
+            
+            # Ensure correct array sizes
+            if len(joint_positions) != state_dim:
+                print(f"\n Frame {frame_idx}: Invalid joint_positions size {len(joint_positions)}, expected {state_dim}")
                 continue
+            
+            if len(control) != action_dim:
+                print(f"\n Frame {frame_idx}: Invalid control size {len(control)}, expected {action_dim}")
+                continue
+            
+            # Build frame dictionary
+            frame_dict = {
+                "observation.state": joint_positions,
+                "observation.velocity": joint_velocities,
+                "observation.ee_pose": ee_pos_quat,
+                "action": control,
+                "task": goal_description,
+            }
+            
+            # Add wrist camera image
+            if wrist_rgb is not None and wrist_rgb.size > 0:
+                # Ensure uint8 format
+                if wrist_rgb.dtype != np.uint8:
+                    wrist_rgb = (wrist_rgb * 255).clip(0, 255).astype(np.uint8)
+                
+                # Convert to PIL Image
+                frame_dict["observation.images.wrist"] = Image.fromarray(wrist_rgb)
+            else:
+                # Black frame placeholder
+                black_frame = np.zeros((480, 640, 3), dtype=np.uint8)
+                frame_dict["observation.images.wrist"] = Image.fromarray(black_frame)
+            
+            # Add frame to dataset
+            dataset.add_frame(frame_dict)
+            frame_count += 1
         
         # Mark episode boundary (creates separate file-XXX for this episode)
         dataset.save_episode()
@@ -417,23 +408,17 @@ def main():
     print(f"Goal: {args.goal or '(auto-generate)'}")
     print("=" * 80)
     
-    try:
-        convert_gello_to_lerobot(
-            input_dir=args.input,
-            output_dir=args.output,
-            fps=args.fps,
-            robot_type=args.robot_type,
-            task_name=args.task_name,
-            goal_description=args.goal,
-            overwrite=args.overwrite,
-        )
-        print("\n Conversion completed successfully!")
-        return 0
-    except Exception as e:
-        print(f"\n Conversion failed: {e}")
-        traceback.print_exc()
-        return 1
+    convert_gello_to_lerobot(
+        input_dir=args.input,
+        output_dir=args.output,
+        fps=args.fps,
+        robot_type=args.robot_type,
+        task_name=args.task_name,
+        goal_description=args.goal,
+        overwrite=args.overwrite,
+    )
+    print("\n Conversion completed successfully!")
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    main()
