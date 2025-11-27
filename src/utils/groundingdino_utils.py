@@ -134,7 +134,12 @@ class GroundingDINODetector:
         # Run inference
         image_tensor = image_tensor.to(self.device)
         with torch.no_grad():
-            outputs = self.model(image_tensor[None], captions=[caption])
+            # Ensure float32 for CUDA compatibility with ms_deform_attn
+            if self.device == "cuda":
+                with torch.cuda.amp.autocast(enabled=False):
+                    outputs = self.model(image_tensor[None].float(), captions=[caption])
+            else:
+                outputs = self.model(image_tensor[None], captions=[caption])
 
         logits = outputs["pred_logits"].sigmoid()[0]  # (nq, 256)
         boxes = outputs["pred_boxes"][0]  # (nq, 4)

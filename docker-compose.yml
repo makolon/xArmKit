@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  xarmkit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: xarmkit:latest
+    container_name: xarmkit_dev
+    
+    runtime: nvidia
+    
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - PYTHONPATH=/workspace/src:/workspace
+      - HF_HOME=/workspace/.cache/huggingface
+      - TRANSFORMERS_CACHE=/workspace/.cache/huggingface/transformers
+    
+    volumes:
+      - .:/workspace
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ~/.cache/huggingface:/workspace/.cache/huggingface
+      - /dev:/dev
+    
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+      - /dev/video0:/dev/video0
+    
+    privileged: true
+    
+    network_mode: host
+    
+    stdin_open: true
+    tty: true
+    
+    command: /bin/bash
+    
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

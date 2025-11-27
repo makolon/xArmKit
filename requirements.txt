@@ -1,0 +1,44 @@
+# Core dependencies
+numpy>=1.24.0,<2.0.0
+opencv-python>=4.8.0
+pyrealsense2>=2.54.0
+torch>=2.1.0
+torchvision>=0.16.0
+
+# RealSense
+pyrealsense2
+
+# Computer Vision
+opencv-python
+pillow
+
+# Deep Learning - Compatible versions
+transformers>=4.30.0,<4.40.0
+huggingface-hub>=0.14.0,<1.0
+timm
+supervision
+tokenizers
+sentencepiece
+
+# GroundingDINO dependencies
+addict
+yapf
+pycocotools
+segment-anything
+
+# Robotics
+pyserial
+dynamixel-sdk
+
+# Utilities
+tyro
+termcolor
+h5py
+tqdm
+pyyaml
+
+# Development
+black
+flake8
+mypy
+pre-commit

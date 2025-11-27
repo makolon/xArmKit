@@ -31,3 +31,6 @@
 [submodule "third_party/ricl_openpi"]
 	path = third_party/ricl_openpi
 	url = https://github.com/makolon/ricl_openpi.git
+[submodule "third_party/any6d"]
+	path = third_party/any6d
+	url = https://github.com/taeyeopl/Any6D.git
